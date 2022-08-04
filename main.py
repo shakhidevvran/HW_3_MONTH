@@ -3,7 +3,7 @@ from config import dp
 import logging
 import asyncio
 from handlers import client, callback, extra, fsmadminMenu, notification
-from data_base.bot_db import sql_create
+from database.bot_db import sql_create
 
 
 async def on_startup(_):
