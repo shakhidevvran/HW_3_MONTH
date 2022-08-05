@@ -1,6 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
 from config import bot
+from parser import anime
 
 
 async def pin(message: types.Message):
@@ -48,9 +49,20 @@ async def mem(message: types.Message):
     await bot.send_photo(message.from_user.id, photo=photo)
 
 
+
+async def parser_news(message: types.Message):
+    data = anime.parser()
+    for item in data:
+       await bot.send_message(message.from_user.id, f"{item['title']}\n\n"
+                                                    f"{item['date']}\n"
+                                                    f"{item['link']}\n\n"
+                                                    f"{item['photo']}")
+
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
     dp.register_message_handler(help, commands=['help'])
     dp.register_message_handler(quiz, commands=['quiz'])
     dp.register_message_handler(mem, commands=['mem'])
     dp.register_message_handler(pin, commands=['pin'], commands_prefix=['!'])
+    dp.register_message_handler(parser_news, commands=['news'])
